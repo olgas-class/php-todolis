@@ -6,14 +6,13 @@ createApp({
       message: "Hello",
       todos: [],
       newTodo: "",
+      apiUrl: "http://localhost/boolean/classe124/php-todolis/server.php",
     };
   },
   created() {
-    axios
-      .get("http://localhost/boolean/classe124/php-todolis/server.php")
-      .then((resp) => {
-        this.todos = resp.data.results;
-      });
+    axios.get(this.apiUrl).then((resp) => {
+      this.todos = resp.data.results;
+    });
   },
   methods: {
     saveNewTodo() {
@@ -22,15 +21,41 @@ createApp({
       };
 
       axios
-        .post(
-          "http://localhost/boolean/classe124/php-todolis/server.php",
-          data,
-          {
-            headers: {
-              "Content-type": "multipart/form-data",
-            },
-          }
-        )
+        .post(this.apiUrl, data, {
+          headers: {
+            "Content-type": "multipart/form-data",
+          },
+        })
+        .then((resp) => {
+          this.todos = resp.data.results;
+        });
+    },
+    cancelTodo(index) {
+      const data = {
+        action: "delete",
+        todo_index: index,
+      };
+      axios
+        .post(this.apiUrl, data, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((resp) => {
+          this.todos = resp.data.results;
+        });
+    },
+    toggleDone(index) {
+      const data = {
+        action: "toggle-done",
+        todo_index: index,
+      };
+      axios
+        .post(this.apiUrl, data, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
         .then((resp) => {
           this.todos = resp.data.results;
         });

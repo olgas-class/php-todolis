@@ -38,11 +38,14 @@
 
             <ul class="list-group">
               <li
-                v-for="todo in todos"
+                v-for="(todo, index) in todos"
                 class="list-group-item d-flex justify-content-between"
               >
-                <h4>{{ todo.text }}</h4>
-                <span>{{ todo.done ? '&check;' : '&cross;' }}</span>
+                <h4 @click="toggleDone(index)">
+                  <span class="me-2">{{ todo.done ? '&check;' : '&cross;' }}</span> 
+                  {{ todo.text }}</h4>
+                  
+                  <button class="btn btn-danger" @click="cancelTodo(index)">Cancella</button>
               </li>
             </ul>
           </div>
